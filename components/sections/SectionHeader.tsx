@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
 
 interface SectionHeaderProps {
@@ -14,30 +13,18 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, description, viewAllHref, viewAllLabel = 'View all', children }: SectionHeaderProps) {
   return (
-    <div className="flex items-end justify-between mb-6 gap-4">
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4 }}
-      >
-        <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--foreground)' }}>
-          {title}
-        </h2>
+    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '20px', gap: '12px' }}>
+      <div>
+        <h2 style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '-0.01em', color: '#1d1d1f' }}>{title}</h2>
         {description && (
-          <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>{description}</p>
+          <p style={{ fontSize: '13px', color: '#6e6e73', marginTop: '2px' }}>{description}</p>
         )}
-      </motion.div>
-
-      <div className="flex items-center gap-3 shrink-0">
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
         {children}
         {viewAllHref && (
-          <Link
-            href={viewAllHref}
-            className="text-sm font-medium transition-opacity hover:opacity-70 flex items-center gap-1"
-            style={{ color: 'var(--accent)' }}
-          >
-            {viewAllLabel} <span>→</span>
+          <Link href={viewAllHref} style={{ fontSize: '13px', fontWeight: 500, color: '#0071e3', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            {viewAllLabel} →
           </Link>
         )}
       </div>

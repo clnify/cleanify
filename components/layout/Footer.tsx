@@ -12,46 +12,44 @@ const links = {
     { label: 'Apps',       href: '/pc/apps' },
   ],
   Discover: [
-    { label: 'Browse',     href: '/browse' },
+    { label: 'Browse all', href: '/browse' },
     { label: 'Featured',   href: '/featured' },
     { label: 'Search',     href: '/search' },
   ],
   Project: [
-    { label: 'About',      href: '/about' },
-    { label: 'Contribute', href: '/contribute' },
-    { label: 'GitHub',     href: 'https://github.com' },
+    { label: 'About',           href: '/about' },
+    { label: 'Suggest content', href: '/suggest' },
+    { label: 'GitHub',          href: 'https://github.com/clnify/cleanify' },
   ],
 }
 
 export function Footer() {
   return (
-    <footer style={{ background: '#f5f5f7', borderTop: '1px solid #e8e8ed', marginTop: 'auto' }}>
-      <div className="mx-auto px-5 py-12" style={{ maxWidth: '1280px' }}>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+    <footer style={{ background: '#f5f5f7', borderTop: '1px solid #e8e8ed' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '48px 24px 32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '32px' }}>
+
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-1.5 mb-3 select-none">
-              <span style={{ fontSize: '20px' }}>☁️</span>
+          <div style={{ gridColumn: 'span 1' }}>
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', marginBottom: '10px' }}>
+              <span style={{ fontSize: '18px' }}>☁</span>
               <span style={{ fontWeight: 700, fontSize: '15px', color: '#1d1d1f' }}>Cleanify</span>
             </Link>
-            <p style={{ fontSize: '13px', color: '#6e6e73', lineHeight: '1.6' }}>
-              Premium wallpapers and customization tools. Clean aesthetics for every device.
+            <p style={{ fontSize: '13px', color: '#6e6e73', lineHeight: '1.55' }}>
+              Premium wallpapers and customization tools for iOS and PC.
             </p>
           </div>
 
           {Object.entries(links).map(([group, items]) => (
             <div key={group}>
-              <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#6e6e73', marginBottom: '10px' }}>
+              <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#6e6e73', marginBottom: '12px' }}>
                 {group}
               </p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px' }}>
                 {items.map(item => (
                   <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      style={{ fontSize: '13px', color: '#1d1d1f', textDecoration: 'none' }}
-                      {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    >
+                    <Link href={item.href} style={{ fontSize: '13px', color: '#1d1d1f', textDecoration: 'none' }}
+                      {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                       {item.label}
                     </Link>
                   </li>
@@ -61,13 +59,9 @@ export function Footer() {
           ))}
         </div>
 
-        <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #e8e8ed', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: '#6e6e73' }}>
-            © {new Date().getFullYear()} Cleanify — Open source · Git-powered
-          </span>
-          <span style={{ fontSize: '12px', color: '#6e6e73' }}>
-            Built with Next.js · Deployed on Vercel
-          </span>
+        <div style={{ marginTop: '36px', paddingTop: '20px', borderTop: '1px solid #e8e8ed', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+          <span style={{ fontSize: '12px', color: '#6e6e73' }}>© {new Date().getFullYear()} Cleanify — Git-powered</span>
+          <span style={{ fontSize: '12px', color: '#6e6e73' }}>Built with Next.js · Deployed on Vercel</span>
         </div>
       </div>
     </footer>
