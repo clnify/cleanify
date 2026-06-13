@@ -1,0 +1,63 @@
+name: Validate Content
+
+on:
+  pull_request:
+    paths:
+      - 'content/**'
+
+jobs:
+  validate:
+    name: Validate Content Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate JSON files
+        run: |
+          echo "Checking JSON files in content/..."
+          find content -name "*.json" | while read file; do
+            echo "Validating: $file"
+            node -e "
+              const fs = require('fs');
+              try {
+                JSON.parse(fs.readFileSync('$file', 'utf-8'));
+                console.log('  ✅ Valid');
+              } catch (e) {
+                console.error('  ❌ Invalid JSON:', e.message);
+                process.exit(1);
+              }
+            "
+          done
+
+      - name: Check image sizes
+        run: |
+          echo "Checking for oversized images (>10MB)..."
+          find content -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.webp" | while read file; do
+            size=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file")
+            if [ $size -gt 10485760 ]; then
+              echo "❌ File too large (>10MB): $file ($size bytes)"
+              exit 1
+            else
+              echo "✅ OK: $file ($(($size / 1024))KB)"
+            fi
+          done
+
+      - name: Summary
+        run: |
+          echo "## Content Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Type | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Mobile Wallpapers | $(find content/mobile/wallpapers -name "*.jpg" -o -name "*.png" -o -name "*.webp" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY
+          echo "| PC Wallpapers | $(find content/pc/wallpapers -name "*.jpg" -o -name "*.png" -o -name "*.webp" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Widgets | $(find content/mobile/widgets -name "*.jpg" -o -name "*.png" -o -name "*.webp" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Rainmeter | $(find content/pc/rainmeter -name "*.jpg" -o -name "*.png" -o -name "*.webp" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Mobile Apps | $(find content/mobile/apps -name "*.json" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY
+          echo "| PC Apps | $(find content/pc/apps -name "*.json" 2>/dev/null | wc -l) |" >> $GITHUB_STEP_SUMMARY

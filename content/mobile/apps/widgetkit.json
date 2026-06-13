@@ -1,0 +1,12 @@
+{
+  "name": "WidgetKit Studio",
+  "slug": "widgetkit",
+  "description": "Create beautiful custom widgets for your iPhone home screen with drag-and-drop ease. Hundreds of templates, full customization, and instant preview.",
+  "website": "https://widgetkitapp.com",
+  "category": "Widgets",
+  "thumbnail": "",
+  "tags": ["widgets", "ios", "customization", "home-screen"],
+  "featured": true,
+  "free": false,
+  "price": "$4.99"
+}

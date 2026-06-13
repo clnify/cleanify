@@ -1,0 +1,20 @@
+{
+  "siteName": "Cleanify",
+  "siteUrl": "https://cleanify.app",
+  "description": "Premium wallpapers, widgets, and customization tools for iOS and PC.",
+  "logo": "☁️",
+  "github": "https://github.com/your-repo/cleanify",
+  "social": {
+    "twitter": "https://twitter.com/cleanifyapp"
+  },
+  "features": {
+    "search": true,
+    "themes": true,
+    "plugins": true,
+    "downloads": true
+  },
+  "content": {
+    "wallpapersPerPage": 24,
+    "featuredCount": 6
+  }
+}

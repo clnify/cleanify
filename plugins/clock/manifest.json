@@ -1,0 +1,8 @@
+{
+  "id": "clock",
+  "name": "Clock Widget",
+  "description": "A minimal live clock widget for the homepage sidebar.",
+  "version": "1.0.0",
+  "author": "Cleanify",
+  "preview": "/plugins/clock/preview.png"
+}

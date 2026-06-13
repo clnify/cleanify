@@ -1,0 +1,7 @@
+{
+  "id": "weather",
+  "name": "Weather Widget",
+  "description": "Shows current weather conditions. Requires NEXT_PUBLIC_WEATHER_API_KEY.",
+  "version": "1.0.0",
+  "author": "Cleanify"
+}

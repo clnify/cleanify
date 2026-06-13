@@ -1,0 +1,11 @@
+{
+  "name": "Rainmeter",
+  "slug": "rainmeter",
+  "description": "Rainmeter allows you to display customizable skins on your desktop, from hardware usage meters to fully functional audio visualizers. Free and open source.",
+  "website": "https://rainmeter.net",
+  "category": "Desktop",
+  "thumbnail": "",
+  "tags": ["desktop", "skins", "windows", "open-source"],
+  "featured": true,
+  "free": true
+}

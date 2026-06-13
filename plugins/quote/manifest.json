@@ -1,0 +1,7 @@
+{
+  "id": "quote",
+  "name": "Daily Quote",
+  "description": "Displays a rotating inspirational quote for desktop setup motivation.",
+  "version": "1.0.0",
+  "author": "Cleanify"
+}
