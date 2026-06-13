@@ -6,17 +6,17 @@ import { ReactNode } from 'react'
 interface MasonryGridProps {
   children: ReactNode
   className?: string
+  landscape?: boolean   // true = PC wallpapers (16/9), false = mobile (9/16)
 }
 
-export function MasonryGrid({ children, className = '' }: MasonryGridProps) {
+export function MasonryGrid({ children, className = '', landscape = false }: MasonryGridProps) {
+  const gridClass = landscape ? 'masonry-grid-landscape' : 'masonry-grid'
   return (
     <motion.div
-      className={`masonry-grid ${className}`}
+      className={`${gridClass} ${className}`}
       initial="hidden"
       animate="visible"
-      variants={{
-        visible: { transition: { staggerChildren: 0.04 } },
-      }}
+      variants={{ visible: { transition: { staggerChildren: 0.03 } } }}
     >
       {children}
     </motion.div>
@@ -24,11 +24,6 @@ export function MasonryGrid({ children, className = '' }: MasonryGridProps) {
 }
 
 export const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.35, ease: 'easeOut' },
-  },
+  hidden:  { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
 }

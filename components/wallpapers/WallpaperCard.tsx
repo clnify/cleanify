@@ -11,61 +11,80 @@ interface WallpaperCardProps {
 }
 
 export function WallpaperCard({ wallpaper }: WallpaperCardProps) {
-  const [imageError, setImageError] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [error,  setError]  = useState(false)
 
   const isMobile = wallpaper.device === 'mobile'
-  const href = `/${isMobile ? 'mobile' : 'pc'}/wallpapers/${wallpaper.slug}`
+  const href     = `/${isMobile ? 'mobile' : 'pc'}/wallpapers/${wallpaper.slug}`
+  const ratio    = isMobile ? '9 / 16' : '16 / 9'
 
   return (
-    <motion.div variants={cardVariants} className="group cursor-pointer">
-      <Link href={href} className="block rounded-2xl overflow-hidden relative"
-        style={{
-          boxShadow: 'var(--shadow-sm)',
-          aspectRatio: isMobile ? '9/16' : '16/9',
-        }}
-      >
-        {/* Image or gradient placeholder */}
-        {wallpaper.src && !imageError ? (
-          <>
-            {!loaded && (
-              <div className={`absolute inset-0 bg-gradient-to-br ${wallpaper.gradient || 'from-slate-800 to-slate-600'} animate-pulse`} />
-            )}
-            <img
-              src={wallpaper.src}
-              alt={wallpaper.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.3s' }}
-              onLoad={() => setLoaded(true)}
-              onError={() => setImageError(true)}
-              loading="lazy"
+    <motion.div variants={cardVariants} style={{ display: 'block' }}>
+      <Link href={href} style={{ display: 'block', textDecoration: 'none' }}>
+        <div
+          className="group"
+          style={{
+            position: 'relative',
+            borderRadius: '14px',
+            overflow: 'hidden',
+            aspectRatio: ratio,
+            background: '#e8e8ed',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+            cursor: 'pointer',
+          }}
+        >
+          {/* Image ou gradient de démo */}
+          {wallpaper.src && !error ? (
+            <>
+              {!loaded && (
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: `linear-gradient(135deg, #${Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0')} 0%, #${Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0')} 100%)`,
+                }} />
+              )}
+              <img
+                src={wallpaper.src}
+                alt={wallpaper.title}
+                loading="lazy"
+                onLoad={() => setLoaded(true)}
+                onError={() => setError(true)}
+                style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                  opacity: loaded ? 1 : 0,
+                  transition: 'opacity 0.35s ease, transform 0.4s ease',
+                }}
+              />
+            </>
+          ) : (
+            <div
+              className={`bg-gradient-to-br ${wallpaper.gradient || 'from-slate-700 to-slate-500'}`}
+              style={{ width: '100%', height: '100%' }}
             />
-          </>
-        ) : (
-          <div className={`w-full h-full bg-gradient-to-br ${wallpaper.gradient || 'from-slate-800 to-slate-600'} transition-transform duration-500 group-hover:scale-105`} />
-        )}
+          )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)' }}>
-          <div className="absolute bottom-0 left-0 right-0 p-3">
-            <p className="text-white text-sm font-medium truncate">{wallpaper.title}</p>
-            <div className="flex items-center gap-2 mt-1">
-              {wallpaper.tags?.slice(0, 2).map(tag => (
-                <span key={tag} className="text-xs px-1.5 py-0.5 rounded-full bg-white/20 text-white/90">
-                  {tag}
-                </span>
-              ))}
+          {/* Overlay au hover */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 45%)',
+            opacity: 0, transition: 'opacity 0.25s',
+          }}
+            onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.opacity = '1'}
+            onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.opacity = '0'}
+          >
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '12px' }}>
+              <p style={{ color: '#fff', fontSize: '13px', fontWeight: 600, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                {wallpaper.title}
+              </p>
+              <div style={{ display: 'flex', gap: '4px', marginTop: '5px', flexWrap: 'wrap' }}>
+                {wallpaper.tags?.slice(0, 2).map(tag => (
+                  <span key={tag} style={{
+                    fontSize: '10px', padding: '2px 7px', borderRadius: '100px',
+                    background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)',
+                  }}>{tag}</span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Device badge */}
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span className="text-xs px-2 py-1 rounded-full font-medium"
-            style={{ background: 'rgba(0,0,0,0.5)', color: 'white', backdropFilter: 'blur(10px)' }}>
-            {isMobile ? '📱' : '🖥️'}
-          </span>
         </div>
       </Link>
     </motion.div>
